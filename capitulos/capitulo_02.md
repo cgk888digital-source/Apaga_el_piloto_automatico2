@@ -267,6 +267,7 @@ Es un **ciclo** que se retroalimenta constantemente.
 
 ---
 
+[[PAGE_BREAK]]
 El ciclo vicioso automático
 
 Ahora entiendes por qué la mayoría de las personas viven atrapadas en patrones que no pueden romper.
