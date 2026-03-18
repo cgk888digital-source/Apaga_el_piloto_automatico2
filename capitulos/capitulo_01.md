@@ -1,4 +1,5 @@
-Piloto en Automático: Sal del piloto automático y diseña tu realidad interior
+Apaga el Piloto Automático
+
 
 ---
 

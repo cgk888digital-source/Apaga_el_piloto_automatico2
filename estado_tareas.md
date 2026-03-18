@@ -1,9 +1,10 @@
-# Book Project: Fortaleza en las Alturas - Estado de Tareas
+# Book Project: Apaga el Piloto Automático - Estado de Tareas
 
 ## Finalization & Cleanup (Today)
 - [x] **Chapter Cleanup**: Removed "El Gancho" and "El Contenido" from all files.
-- [x] **Book Renaming**: Updated title to "Fortaleza en las Alturas".
-- [x] **PDF Generation**: Created `Fortaleza_en_las_Alturas.pdf`.
+- [x] **Book Renaming**: Updated title to "Apaga el Piloto Automático".
+- [x] **PDF Generation**: Created `Apaga_el_Piloto_Automatico.pdf`.
+
 
 ## Writing Phase (Chapters 10-17)
 - [x] **Chapter 10**: Reprogramar el subconsciente

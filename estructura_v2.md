@@ -1,8 +1,7 @@
-# Estructura del Proyecto: Apaga el piloto automático de tu mente
-## despierta tu consciencia
+# Estructura del Proyecto: Apaga el Piloto Automático
+**Título Final**: Apaga el Piloto Automático
+**Subtítulo**: 
 
-**Título Final**: Apaga el piloto automático de tu mente
-**Subtítulo**: despierta tu consciencia
 **Objetivo**: Expandir el manuscrito de 9 a 17 capítulos con mayor profundidad científica y práctica.
 
 ## INTRODUCCIÓN: La trampa del 98%

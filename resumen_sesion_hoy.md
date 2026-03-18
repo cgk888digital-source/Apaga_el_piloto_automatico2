@@ -1,4 +1,4 @@
-# Walkthrough de la Sesión: Finalización y Renombramiento de "Fortaleza en las Alturas"
+# Walkthrough de la Sesión: Finalización y Renombramiento de "Apaga el Piloto Automático"
 
 Hoy hemos realizado una limpieza profunda del manuscrito y hemos actualizado la identidad visual del libro con su nuevo título definitivo.
 
@@ -9,11 +9,12 @@ Hoy hemos realizado una limpieza profunda del manuscrito y hemos actualizado la 
     - Esto permite una lectura más fluida y profesional en el formato final.
 
 2.  **Cambio de Nombre del Ebook**:
-    - El nuevo título oficial es: **"Fortaleza en las Alturas: Sal del piloto automático y diseña tu realidad interior"**.
+    - El nuevo título oficial es: **"Apaga el Piloto Automático"**.
     - Se actualizó el título en el script de generación de PDF, en el Capítulo 1, el archivo README y la Tabla de Contenidos.
 
 3.  **Generación de PDF**:
-    - Se generó un nuevo documento PDF consolidado con el nombre `Fortaleza_en_las_Alturas.pdf`.
+    - Se generó un nuevo documento PDF consolidado con el nombre `Apaga_el_Piloto_Automatico.pdf`.
+
 
 ## Estado del Proyecto
 

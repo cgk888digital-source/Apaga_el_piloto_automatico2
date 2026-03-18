@@ -1,13 +1,14 @@
 # Resumen de Sesión - 16 de Febrero de 2026
 
 ## Objetivo Principal
-Renombrar el libro a "Apaga el piloto automático de tu mente", con el subtítulo "despierta tu consciencia", expandir el contenido con nuevos capítulos basados en transcripciones y refinar el formato final del PDF.
+Renombrar el libro a "Apaga el Piloto Automático", expandir el contenido con nuevos capítulos basados en transcripciones y refinar el formato final del PDF.
 
 ## Logros Clave
 
 ### 1. Renombramiento del Proyecto
-- Se actualizó el título del libro a **"Apaga el piloto automático de tu mente"** y el subtítulo a **"despierta tu consciencia"** en todos los archivos del proyecto.
+- Se actualizó el título del libro a **"Apaga el Piloto Automático"** en todos los archivos del proyecto.
 - Se modificó el script `generate_pdf.py` para relevar este cambio y generar `Apaga_el_Piloto_Automatico.pdf`.
+
 
 ### 2. Nuevos Capítulos (Redacción y Expansión)
 - **Capítulo 12: Desidentificarse del ego**:

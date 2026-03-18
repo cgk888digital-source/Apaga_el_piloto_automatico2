@@ -1,6 +1,5 @@
-# Índice: Apaga el piloto automático de tu mente
-## despierta tu consciencia de tu mente
-## despierta tu consciencia
+# Índice: Apaga el Piloto Automático
+
 
 ## 📚 Información del Proyecto
 

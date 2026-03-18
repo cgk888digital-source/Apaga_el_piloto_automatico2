@@ -1,5 +1,5 @@
-# Índice: Apaga el piloto automático de tu mente
-## despierta tu consciencia
+# Índice: Apaga el Piloto Automático
+
 ## Tabla de Contenidos
 
 ---

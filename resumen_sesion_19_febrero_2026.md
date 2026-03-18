@@ -3,8 +3,9 @@
 ## Logros de Hoy
 
 ### 1. Actualización de Identidad del Proyecto
-- **Nuevo Título**: Se cambió oficialmente el título del libro a **"Apaga el piloto automático de tu mente"**.
-- **Nuevo Subtítulo**: Se añadió el subtítulo **"despierta tu consciencia"**.
+- **Nuevo Título**: Se cambió oficialmente el título del libro a **"Apaga el Piloto Automático"**.
+- **Nuevo Subtítulo**: 
+
 - **Archivos Actualizados**:
     - `README.md`
     - `table_of_contents.md`
