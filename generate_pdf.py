@@ -96,6 +96,11 @@ def create_pdf(output_filename, chapter_files, book_title, book_subtitle=None):
             if line == '---' or line == '***':
                 story.append(Spacer(1, 10))
                 continue
+            
+            # Manual Page Break
+            if line == '[[PAGE_BREAK]]':
+                story.append(PageBreak())
+                continue
 
             # 3. Blockquotes
             if line.startswith('> '):

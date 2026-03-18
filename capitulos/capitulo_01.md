@@ -285,6 +285,7 @@ Al final de los 7 días, revisa tus números. ¿Notas algún cambio? ¿Qué día
 
 ---
 
+[[PAGE_BREAK]]
 Meditación Guiada Ultra-Corta: 3 Minutos de Consciencia Pura
 
 Si quieres ir un paso más allá, prueba esto **una vez al día**:
