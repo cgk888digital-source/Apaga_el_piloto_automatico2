@@ -13,16 +13,16 @@ def create_pdf(output_filename, chapter_files, book_title, book_subtitle=None):
                             topMargin=72, bottomMargin=18)
     
     styles = getSampleStyleSheet()
-    styles.add(ParagraphStyle(name='Justify', alignment=TA_JUSTIFY, parent=styles['Normal'], spaceAfter=12))
-    styles.add(ParagraphStyle(name='Quote', parent=styles['Normal'], leftIndent=20, rightIndent=20, spaceAfter=12, fontName='Helvetica-Oblique'))
-    styles.add(ParagraphStyle(name='ChapterTitle', parent=styles['Title'], spaceAfter=24, alignment=TA_CENTER, fontSize=24, keepWithNext=True))
-    styles.add(ParagraphStyle(name='SectionTitle', parent=styles['Heading2'], spaceAfter=18, spaceBefore=18, keepWithNext=True, fontSize=16, alignment=TA_CENTER))
-    styles.add(ParagraphStyle(name='CenteredSeparator', parent=styles['Normal'], alignment=TA_CENTER, fontSize=14, spaceBefore=12, spaceAfter=12))
+    styles.add(ParagraphStyle(name='Justify', alignment=TA_JUSTIFY, parent=styles['Normal'], spaceAfter=6))
+    styles.add(ParagraphStyle(name='Quote', parent=styles['Normal'], leftIndent=20, rightIndent=20, spaceAfter=6, fontName='Helvetica-Oblique'))
+    styles.add(ParagraphStyle(name='ChapterTitle', parent=styles['Title'], spaceAfter=12, alignment=TA_CENTER, fontSize=24, keepWithNext=True))
+    styles.add(ParagraphStyle(name='SectionTitle', parent=styles['Heading2'], spaceAfter=8, spaceBefore=8, keepWithNext=True, fontSize=16, alignment=TA_CENTER))
+    styles.add(ParagraphStyle(name='CenteredSeparator', parent=styles['Normal'], alignment=TA_CENTER, fontSize=14, spaceBefore=6, spaceAfter=6))
     
     story = []
 
     # Title Page
-    story.append(Spacer(1, 60))
+    story.append(Spacer(1, 40))
     
     # Try different cover image extensions
     cover_found = False
@@ -67,7 +67,6 @@ def create_pdf(output_filename, chapter_files, book_title, book_subtitle=None):
         for i, line in enumerate(lines):
             line = line.strip()
             if not line:
-                story.append(Spacer(1, 6))
                 continue
             
             # 1. Chapter Title (First non-empty line)
@@ -95,7 +94,7 @@ def create_pdf(output_filename, chapter_files, book_title, book_subtitle=None):
 
             # 2. Section Separator (Clean White Space)
             if line == '---' or line == '***':
-                story.append(Spacer(1, 30))
+                story.append(Spacer(1, 10))
                 continue
 
             # 3. Blockquotes
