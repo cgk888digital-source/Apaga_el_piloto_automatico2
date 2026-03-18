@@ -93,11 +93,9 @@ def create_pdf(output_filename, chapter_files, book_title, book_subtitle=None):
                 is_first_line = False
                 continue
 
-            # 2. Section Separator (Traditional stars)
+            # 2. Section Separator (Clean White Space)
             if line == '---' or line == '***':
-                story.append(Spacer(1, 15))
-                story.append(Paragraph("<b>*  *  *</b>", styles['CenteredSeparator']))
-                story.append(Spacer(1, 15))
+                story.append(Spacer(1, 30))
                 continue
 
             # 3. Blockquotes
