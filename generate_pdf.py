@@ -17,6 +17,7 @@ def create_pdf(output_filename, chapter_files, book_title, book_subtitle=None):
     styles.add(ParagraphStyle(name='Quote', parent=styles['Normal'], leftIndent=20, rightIndent=20, spaceAfter=12, fontName='Helvetica-Oblique'))
     styles.add(ParagraphStyle(name='ChapterTitle', parent=styles['Title'], spaceAfter=24, alignment=TA_CENTER, fontSize=24, keepWithNext=True))
     styles.add(ParagraphStyle(name='SectionTitle', parent=styles['Heading2'], spaceAfter=18, spaceBefore=18, keepWithNext=True, fontSize=16, alignment=TA_CENTER))
+    styles.add(ParagraphStyle(name='CenteredSeparator', parent=styles['Normal'], alignment=TA_CENTER, fontSize=14, spaceBefore=12, spaceAfter=12))
     
     story = []
 
@@ -92,11 +93,11 @@ def create_pdf(output_filename, chapter_files, book_title, book_subtitle=None):
                 is_first_line = False
                 continue
 
-            # 2. Horizontal Rule
+            # 2. Section Separator (Traditional stars)
             if line == '---' or line == '***':
-                story.append(Spacer(1, 10))
-                story.append(HRFlowable(width="50%", thickness=0.5, color=colors.grey, spaceBefore=10, spaceAfter=10))
-                story.append(Spacer(1, 10))
+                story.append(Spacer(1, 15))
+                story.append(Paragraph("<b>*  *  *</b>", styles['CenteredSeparator']))
+                story.append(Spacer(1, 15))
                 continue
 
             # 3. Blockquotes
