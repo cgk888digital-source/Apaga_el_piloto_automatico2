@@ -16,7 +16,7 @@ def create_pdf(output_filename, chapter_files, book_title, book_subtitle=None):
     styles.add(ParagraphStyle(name='Justify', alignment=TA_JUSTIFY, parent=styles['Normal'], spaceAfter=12))
     styles.add(ParagraphStyle(name='Quote', parent=styles['Normal'], leftIndent=20, rightIndent=20, spaceAfter=12, fontName='Helvetica-Oblique'))
     styles.add(ParagraphStyle(name='ChapterTitle', parent=styles['Title'], spaceAfter=24, alignment=TA_CENTER, fontSize=24, keepWithNext=True))
-    styles.add(ParagraphStyle(name='SectionTitle', parent=styles['Heading2'], spaceAfter=12, spaceBefore=12, keepWithNext=True))
+    styles.add(ParagraphStyle(name='SectionTitle', parent=styles['Heading2'], spaceAfter=18, spaceBefore=18, keepWithNext=True, fontSize=16, alignment=TA_CENTER))
     
     story = []
 
@@ -94,9 +94,9 @@ def create_pdf(output_filename, chapter_files, book_title, book_subtitle=None):
 
             # 2. Horizontal Rule
             if line == '---' or line == '***':
-                story.append(Spacer(1, 12))
-                story.append(HRFlowable(width="80%", thickness=1, color=colors.lightgrey, spaceBefore=6, spaceAfter=6))
-                story.append(Spacer(1, 12))
+                story.append(Spacer(1, 10))
+                story.append(HRFlowable(width="50%", thickness=0.5, color=colors.grey, spaceBefore=10, spaceAfter=10))
+                story.append(Spacer(1, 10))
                 continue
 
             # 3. Blockquotes
@@ -125,6 +125,9 @@ def create_pdf(output_filename, chapter_files, book_title, book_subtitle=None):
             
             if is_title:
                 text = format_inline_styles(line)
+                # Ensure titles are bold and stand out
+                if not text.startswith('<b>'):
+                    text = f"<b>{text}</b>"
                 story.append(Paragraph(text, styles['SectionTitle']))
             else:
                 text = format_inline_styles(line)
