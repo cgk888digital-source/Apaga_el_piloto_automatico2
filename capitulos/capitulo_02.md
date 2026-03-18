@@ -307,6 +307,7 @@ Refuerzo de la programación
 
 Y el ciclo se repite la próxima vez.
 
+[[PAGE_BREAK]]
 **¿Por qué es mayormente negativo?**
 
 Tu cerebro tiene un **sesgo de negatividad evolutivo**. Durante millones de años, los humanos que sobrevivieron fueron los que detectaban peligros, no los que disfrutaban del paisaje.

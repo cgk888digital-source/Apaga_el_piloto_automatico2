@@ -120,11 +120,14 @@ def create_pdf(output_filename, chapter_files, book_title, book_subtitle=None):
                 continue
 
             # 5. Section Titles (Heuristics)
-            is_title = (len(line) < 100 and 
-                      line[0].isupper() and 
-                      not line.endswith('.') and 
-                      not line.endswith(':') and
-                      not line.endswith(';'))
+            clean_for_check = line.replace('**', '').strip()
+            if not clean_for_check: continue
+            
+            is_title = (len(clean_for_check) < 100 and 
+                      (clean_for_check[0].isupper() or clean_for_check[0] in "¿¡") and 
+                      not clean_for_check.endswith('.') and 
+                      not clean_for_check.endswith(':') and
+                      not clean_for_check.endswith(';'))
             
             if is_title:
                 text = format_inline_styles(line)
