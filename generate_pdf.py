@@ -6,144 +6,6 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_JUSTIFY, TA_CENTER, TA_LEFT
 from reportlab.lib import colors
 
-def create_pdf(output_filename, chapter_files, book_title, book_subtitle=None):
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    doc = SimpleDocTemplate(output_filename, pagesize=letter,
-                            rightMargin=72, leftMargin=72,
-                            topMargin=72, bottomMargin=18)
-    
-    styles = getSampleStyleSheet()
-    styles.add(ParagraphStyle(name='Justify', alignment=TA_JUSTIFY, parent=styles['Normal'], spaceAfter=6))
-    styles.add(ParagraphStyle(name='Quote', parent=styles['Normal'], leftIndent=20, rightIndent=20, spaceAfter=6, fontName='Helvetica-Oblique'))
-    styles.add(ParagraphStyle(name='ChapterTitle', parent=styles['Title'], spaceAfter=12, alignment=TA_CENTER, fontSize=24, keepWithNext=True))
-    styles.add(ParagraphStyle(name='SectionTitle', parent=styles['Heading2'], spaceAfter=8, spaceBefore=8, keepWithNext=True, fontSize=16, alignment=TA_CENTER))
-    styles.add(ParagraphStyle(name='CenteredSeparator', parent=styles['Normal'], alignment=TA_CENTER, fontSize=14, spaceBefore=6, spaceAfter=6))
-    
-    story = []
-
-    # Title Page
-    story.append(Spacer(1, 40))
-    
-    # Try different cover image extensions
-    cover_found = False
-    for ext in ['.jpg', '.png', '.jpeg']:
-        img_path = os.path.join(current_dir, "imagenes", "imagen_portada" + ext)
-        if not os.path.exists(img_path):
-            img_path = os.path.join(current_dir, "imagen_portada" + ext)
-            
-        if os.path.exists(img_path):
-            img = Image(img_path)
-            aspect = img.imageHeight / float(img.imageWidth)
-            display_width = 450
-            display_height = display_width * aspect
-            img.drawWidth = display_width
-            img.drawHeight = display_height
-            story.append(img)
-            story.append(Spacer(1, 30))
-            cover_found = True
-            break
-            
-    if not cover_found:
-        story.append(Spacer(1, 140))
-
-    story.append(Paragraph(book_title, styles['ChapterTitle']))
-    if book_subtitle:
-        story.append(Paragraph(book_subtitle, styles['Heading2']))
-    story.append(Spacer(1, 20))
-    story.append(Paragraph("Edición Completa", styles['Heading1']))
-    story.append(PageBreak())
-
-    for file_path in chapter_files:
-        if not os.path.exists(file_path):
-            print(f"File not found: {file_path}")
-            continue
-            
-        with open(file_path, 'r', encoding='utf-8') as f:
-            content = f.read()
-            
-        lines = content.split('\n')
-        is_first_line = True
-        
-        for i, line in enumerate(lines):
-            line = line.strip()
-            if not line:
-                continue
-            
-            # 1. Chapter Title (First non-empty line)
-            if is_first_line:
-                story.append(Paragraph(line, styles['ChapterTitle']))
-                
-                # Image logic
-                chapter_base = os.path.splitext(os.path.basename(file_path))[0]
-                for ext in ['.jpg', '.png', '.jpeg']:
-                    img_path = os.path.join(current_dir, "imagenes", chapter_base + ext)
-                    if os.path.exists(img_path):
-                        img = Image(img_path)
-                        aspect = img.imageHeight / float(img.imageWidth)
-                        display_width = 400
-                        display_height = display_width * aspect
-                        img.drawWidth = display_width
-                        img.drawHeight = display_height
-                        story.append(Spacer(1, 12))
-                        story.append(img)
-                        story.append(Spacer(1, 24))
-                        break
-                
-                is_first_line = False
-                continue
-
-            # 2. Section Separator (Clean White Space)
-            if line == '---' or line == '***':
-                story.append(Spacer(1, 10))
-                continue
-            
-            # Manual Page Break
-            if line == '[[PAGE_BREAK]]':
-                story.append(PageBreak())
-                continue
-
-            # 3. Blockquotes
-            if line.startswith('> '):
-                text = line[2:].strip()
-                text = format_inline_styles(text)
-                story.append(Paragraph(text, styles['Quote']))
-                continue
-            
-            # 4. List items
-            if line.startswith('- ') or line.startswith('* ') or re.match(r'^\d+\.', line):
-                if line.startswith('- ') or line.startswith('* '):
-                    text = line[2:].strip()
-                else:
-                    text = line.split('.', 1)[1].strip()
-                text = format_inline_styles(text)
-                story.append(Paragraph(f"• {text}" if not line[0].isdigit() else f"{line.split('.')[0]}. {text}", styles['Normal']))
-                continue
-
-            # 5. Section Titles (Heuristics)
-            clean_for_check = line.replace('**', '').strip()
-            if not clean_for_check: continue
-            
-            is_title = (len(clean_for_check) < 100 and 
-                      (clean_for_check[0].isupper() or clean_for_check[0] in "¿¡") and 
-                      not clean_for_check.endswith('.') and 
-                      not clean_for_check.endswith(':') and
-                      not clean_for_check.endswith(';'))
-            
-            if is_title:
-                text = format_inline_styles(line)
-                # Ensure titles are bold and stand out
-                if not text.startswith('<b>'):
-                    text = f"<b>{text}</b>"
-                story.append(Paragraph(text, styles['SectionTitle']))
-            else:
-                text = format_inline_styles(line)
-                story.append(Paragraph(text, styles['Justify']))
-                
-        story.append(PageBreak())
-
-    doc.build(story)
-    print(f"PDF generated: {output_filename}")
-
 def format_inline_styles(text):
     # Bold **text** -> <b>text</b>
     text = re.sub(r'\*\*(.*?)\*\*', r'<b>\1</b>', text)
@@ -151,14 +13,122 @@ def format_inline_styles(text):
     text = re.sub(r'(?<!^)\*(.*?)\*', r'<i>\1</i>', text) 
     return text
 
+def create_pdf(output_filename, chapter_files, book_title, book_subtitle=None):
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    doc = SimpleDocTemplate(output_filename, pagesize=letter,
+                            rightMargin=72, leftMargin=72,
+                            topMargin=72, bottomMargin=54)
+    
+    styles = getSampleStyleSheet()
+    styles.add(ParagraphStyle(name='Justify', alignment=TA_JUSTIFY, parent=styles['Normal'], spaceAfter=12, leading=14))
+    styles.add(ParagraphStyle(name='Quote', parent=styles['Normal'], leftIndent=30, rightIndent=30, spaceAfter=12, fontName='Helvetica-Oblique', fontSize=10, leading=14))
+    styles.add(ParagraphStyle(name='ChapterTitle', parent=styles['Title'], spaceAfter=24, alignment=TA_CENTER, fontSize=28, keepWithNext=True))
+    styles.add(ParagraphStyle(name='SectionTitle', parent=styles['Heading2'], spaceAfter=12, spaceBefore=18, keepWithNext=True, fontSize=18, alignment=TA_LEFT, color=colors.HexColor('#2c3e50')))
+    styles.add(ParagraphStyle(name='SubSectionTitle', parent=styles['Heading3'], spaceAfter=8, spaceBefore=12, keepWithNext=True, fontSize=14, alignment=TA_LEFT, color=colors.HexColor('#34495e')))
+    styles.add(ParagraphStyle(name='ListItem', parent=styles['Normal'], leftIndent=20, spaceAfter=6, leading=14))
+    
+    story = []
+
+    # Portada
+    story.append(Spacer(1, 40))
+    cover_found = False
+    for ext in ['.jpg', '.png', '.jpeg', '.PNG']:
+        img_path = os.path.join(current_dir, "imagenes", "imagen_portada" + ext)
+        if os.path.exists(img_path):
+            img = Image(img_path)
+            aspect = img.imageHeight / float(img.imageWidth)
+            display_width = 400
+            img.drawWidth = display_width
+            img.drawHeight = display_width * aspect
+            story.append(img)
+            story.append(Spacer(1, 40))
+            cover_found = True
+            break
+    if not cover_found: story.append(Spacer(1, 140))
+
+    story.append(Paragraph(book_title, styles['ChapterTitle']))
+    if book_subtitle: story.append(Paragraph(book_subtitle, styles['Heading2']))
+    story.append(Spacer(1, 20))
+    story.append(Paragraph("Edición Completa", styles['Heading1']))
+    story.append(PageBreak())
+
+    for file_path in chapter_files:
+        if not os.path.exists(file_path): continue
+        with open(file_path, 'r', encoding='utf-8') as f:
+            lines = [l.strip() for l in f.readlines() if l.strip()]
+        
+        chapter_idx = 0
+        while chapter_idx < len(lines):
+            line = lines[chapter_idx]
+            
+            # --- Títulos con Markdown (#, ##) ---
+            if line.startswith('# '):
+                story.append(Paragraph(format_inline_styles(line[2:]), styles['ChapterTitle']))
+                chapter_idx += 1; continue
+            if line.startswith('## '):
+                story.append(Paragraph(format_inline_styles(line[3:]), styles['SectionTitle']))
+                chapter_idx += 1; continue
+            
+            # --- Títulos heurísticos (incluyendo los que terminan en :) ---
+            is_title = (len(line) < 100 and (line[0].isupper() or line[0] in "¿¡") and not line.endswith('.'))
+            
+            if is_title and chapter_idx > 0:
+                title_text = format_inline_styles(line)
+                if not title_text.startswith('<b>'): title_text = f"<b>{title_text}</b>"
+                title_p = Paragraph(title_text, styles['SectionTitle'])
+                
+                if chapter_idx + 1 < len(lines):
+                    next_line = lines[chapter_idx+1]
+                    next_p = Paragraph(format_inline_styles(next_line), styles['Justify'])
+                    story.append(KeepTogether([title_p, next_p]))
+                    chapter_idx += 2 
+                    continue
+                else:
+                    story.append(title_p)
+            elif chapter_idx == 0:
+                # Título de Capítulo + Imagen de Capítulo
+                story.append(Paragraph(format_inline_styles(line), styles['ChapterTitle']))
+                chapter_base = os.path.splitext(os.path.basename(file_path))[0]
+                # Prefer clean version, then fall back to originals
+                img_candidates = [
+                    os.path.join(current_dir, "imagenes", chapter_base + "_clean.png"),
+                ] + [
+                    os.path.join(current_dir, "imagenes", chapter_base + ext)
+                    for ext in ['.jpg', '.png', '.jpeg', '.PNG']
+                ]
+                for img_path in img_candidates:
+                    if os.path.exists(img_path):
+                        try:
+                            c_img = Image(img_path)
+                            aspect = c_img.imageHeight / float(c_img.imageWidth)
+                            display_width = 468 # Ancho máximo de la página
+                            c_img.drawWidth = display_width
+                            c_img.drawHeight = display_width * aspect
+                            story.append(Spacer(1, 12))
+                            story.append(c_img)
+                            story.append(Spacer(1, 24))
+                            break
+                        except: pass
+            elif line.startswith('- ') or line.startswith('* '):
+                story.append(Paragraph(f"• {format_inline_styles(line[2:])}", styles['ListItem']))
+            elif line == '---':
+                story.append(HRFlowable(width="80%", thickness=1, color=colors.lightgrey, spaceBefore=10, spaceAfter=10))
+            elif line == '[[PAGE_BREAK]]':
+                story.append(PageBreak())
+            else:
+                story.append(Paragraph(format_inline_styles(line), styles['Justify']))
+            chapter_idx += 1
+                
+        story.append(PageBreak())
+
+    doc.build(story)
+    print(f"PDF generado exitosamente con imágenes.")
+
 if __name__ == "__main__":
     current_dir = os.path.dirname(os.path.abspath(__file__))
     base_dir = os.path.join(current_dir, "capitulos")
     output_pdf = os.path.join(current_dir, "Apaga_el_Piloto_Automatico.pdf")
-    book_title = "Apaga el Piloto Automático"
-    book_subtitle = ""
-
-    # Discover all chapters automatically
+    
     chapters = []
     if os.path.exists(base_dir):
         chapters = sorted([
@@ -167,9 +137,5 @@ if __name__ == "__main__":
             if f.startswith("capitulo_") and f.endswith(".md")
         ])
     
-    if not chapters:
-        print("No matching chapter files found.")
-        exit(1)
-
-    
-    create_pdf(output_pdf, chapters, book_title, book_subtitle)
+    if chapters:
+        create_pdf(output_pdf, chapters, "Apaga el Piloto Automático")
