@@ -174,9 +174,7 @@ El ciclo completo: de pensamiento a realidad vivida
 Ahora viene la parte crucial. Porque los pensamientos no se quedan solo en tu cabeza. Desencadenan una **reacción en cadena** que afecta absolutamente todo en tu vida.
 
 Aquí está el ciclo completo:
-
-🔄 PENSAMIENTO → EMOCIÓN → SENTIMIENTO → VIBRACIÓN/ENERGÍA → COMPORTAMIENTO
-
+![Ciclo del Pensamiento](ciclo_pensamiento.png)
 Déjame explicarte cada fase:
 
 FASE 1: PENSAMIENTO
@@ -274,38 +272,11 @@ Ahora entiendes por qué la mayoría de las personas viven atrapadas en patrones
 
 Aquí está el ciclo vicioso:
 
-```
-Estímulo (interno o externo)
-    ↓
-Pensamiento automático (basado en programación pasada)
-    ↓
-Emoción reactiva (generalmente negativa)
-    ↓
-Sentimiento prolongado
-    ↓
-Vibración/energía baja
-    ↓
-Comportamiento reactivo
-    ↓
-Resultados que confirman el pensamiento original
-    ↓
-Refuerzo de la programación
-    ↓
-[El ciclo se repite]
-```
+![Ciclo Vicioso Automático](ciclo_vicioso.png)
 
 **Ejemplo real:**
 
-1. **Estímulo:** Tu jefe te pide hablar en privado
-2. **Pensamiento automático:** *"Me va a despedir"* (basado en miedo programado)
-3. **Emoción:** Ansiedad
-4. **Sentimiento:** Estrés prolongado (sigues pensando en ello toda la tarde)
-5. **Vibración:** Energía baja, cortisol alto
-6. **Comportamiento:** Llegas nervioso, defensivo, poco claro
-7. **Resultado:** La conversación sale mal porque proyectaste inseguridad
-8. **Refuerzo:** *"Sabía que algo malo iba a pasar, nunca me va bien"*
-
-Y el ciclo se repite la próxima vez.
+![Ejemplo Real del Ciclo Vicioso](ejemplo_real.png)
 
 [[PAGE_BREAK]]
 **¿Por qué es mayormente negativo?**
@@ -611,7 +582,7 @@ Si dura más, es porque estás **alimentándola con pensamientos**.
 
 Después de 90 segundos, pregunta:
 
-*"¿Qué pensamiento consciente elijo ahora?"*
+"¿Qué pensamiento consciente elijo ahora?"
 
 ---
 

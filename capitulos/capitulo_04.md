@@ -238,19 +238,7 @@ Cuando la amígdala se activa:
 
 Y aquí está el ciclo vicioso:
 
-```
-Ego genera pensamiento de amenaza
-    ↓
-Amígdala se activa
-    ↓
-Estrés y miedo
-    ↓
-Pensamientos más negativos
-    ↓
-Más activación de amígdala
-    ↓
-[El ciclo se retroalimenta]
-```
+![Ciclo de la Amígdala](ciclo_amigdala.png)
 
 El ego te mantiene en este estado porque **desde el miedo eres más controlable**.
 
@@ -514,12 +502,7 @@ Aquí está la comprensión final:
 - **Consciencia sin ego** = No puedes funcionar en el mundo práctico
 - **Ego al servicio de la consciencia** = Equilibrio, paz con funcionalidad
 
-Tu trabajo no es **destruir el ego**, sino **desidentificarte de él**.
-
-Observarlo.  
-Reconocerlo.  
-Sonreírle cuando aparece.  
-Y elegir responder desde tu verdadero ser—la consciencia.
+Tu trabajo no es **destruir el ego**, sino **desidentificarte de él**.<br/><br/>Observarlo.<br/>Reconocerlo.<br/>Sonreírle cuando aparece.<br/>Y elegir responder desde tu verdadero ser—la consciencia.
 
 ---
 

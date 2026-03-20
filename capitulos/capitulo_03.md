@@ -97,27 +97,11 @@ Aquí está algo que la mayoría de las personas no entiende:
 
 Aquí está el proceso completo que aprendiste en el Capítulo 2:
 
-```
-PENSAMIENTO
-    ↓
-EMOCIÓN (30-90 segundos de química corporal)
-    ↓
-Si agregas MÁS PENSAMIENTOS sobre la emoción
-    ↓
-SENTIMIENTO (emoción prolongada)
-    ↓
-ESTADO EMOCIONAL (sentimientos habituales)
-    ↓
-PERSONALIDAD (estados emocionales crónicos)
-```
+![Proceso Emocional](proceso_emocional.png)
 
 **Ejemplo:**
 
-1. **Pensamiento:** *"Mi pareja no respondió mi mensaje"*
-2. **Emoción:** Inseguridad (dura 60 segundos si la dejas pasar)
-3. **Más pensamientos:** *"Seguro está enojado conmigo", "Siempre me ignora", "Tal vez ya no me quiere"*
-4. **Sentimiento:** Ansiedad prolongada (ahora dura horas)
-5. **Estado emocional:** Si esto se repite constantemente → Inseguridad crónica en la relación
+![Ejemplo de Pareja](ejemplo_pareja.png)
 
 **La clave:**
 
@@ -277,9 +261,7 @@ Porque **el 95% de tus reacciones emocionales son subconscientes**, basadas en t
 Imagina que de niño, cada vez que cometías un error, tu padre te gritaba.
 
 Tu cerebro creó una **asociación neuronal**:
-```
-Error = Rechazo = Peligro
-```
+![Error Rechazo Peligro](error_rechazo_peligro.png)
 
 Ahora, 30 años después, cuando tu jefe señala un error en tu trabajo, tu cuerpo reacciona como si estuvieras frente a tu padre gritándote.
 
@@ -431,13 +413,7 @@ Emociones reprimidas = enfermedad
 
 Cuando reprimes emociones, no desaparecen. Se **almacenan en tu cuerpo**.
 
-La medicina psicosomática ha demostrado que las emociones no procesadas se manifiestan como:
-
-- **Miedo crónico** → Problemas en riñones, vejiga, sistema urinario
-- **Ira reprimida** → Problemas hepáticos, dolores de cabeza, hipertensión
-- **Tristeza no procesada** → Problemas respiratorios, debilidad inmune
-- **Resentimiento** → Problemas digestivos, úlceras
-- **Estrés crónico** → Inflamación sistémica, enfermedades autoinmunes
+![Bloques de Enfermedad](bloques_enfermedad.png)
 
 **Tu cuerpo lleva la cuenta.**
 
@@ -490,7 +466,7 @@ Después de 90 segundos, pregunta:
 
 *"¿Necesito expresar algo?"*  
 *"¿Necesito soltar algo?"*  
-*"¿Qué pensamiento consciente elijo ahora?"*
+"¿Qué pensamiento consciente elijo ahora?"
 
 **Repite esto durante 7 días** con al menos una emoción fuerte por día.
 
