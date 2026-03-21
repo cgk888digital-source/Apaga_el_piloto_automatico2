@@ -1,57 +1,115 @@
 import os
 import re
-from reportlab.lib.pagesizes import letter
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak, Image, KeepTogether, HRFlowable, Table, TableStyle
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.lib.enums import TA_JUSTIFY, TA_CENTER, TA_LEFT
-from reportlab.lib import colors
+from reportlab.lib.pagesizes import A5
+from reportlab.platypus import BaseDocTemplate, PageTemplate, Frame, Paragraph, Spacer, PageBreak, Image, KeepTogether, HRFlowable, Table, TableStyle
 
 def format_inline_styles(text):
     # Bold **text** -> <b>text</b>
     text = re.sub(r'\*\*(.*?)\*\*', r'<b>\1</b>', text)
-    # Italic *text* -> <i>text</i>  (Permitiendo que esté al inicio del string)
+    # Italic *text* -> <i>text</i>
     text = re.sub(r'\*(?!\s)(.+?)(?<!\s)\*', r'<i>\1</i>', text) 
     return text
 
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.enums import TA_JUSTIFY, TA_CENTER, TA_LEFT
+from reportlab.lib import colors
+from reportlab.pdfgen import canvas
+
+class NumberingCanvas(canvas.Canvas):
+    def __init__(self, *args, **kwargs):
+        canvas.Canvas.__init__(self, *args, **kwargs)
+        self.pages = []
+
+    def showPage(self):
+        self.pages.append(dict(self.__dict__))
+        self._startPage()
+
+    def save(self):
+        page_count = len(self.pages)
+        for page in self.pages:
+            self.__dict__.update(page)
+            self.draw_page_number(page_count)
+            canvas.Canvas.showPage(self)
+        canvas.Canvas.save(self)
+
+    def draw_page_number(self, page_count):
+        # Solo dibujamos números a partir de la página de cortesía (saltamos portada si queremos)
+        if self._pageNumber > 1:
+            page_num = f"{self._pageNumber}"
+            self.setFont("Helvetica", 9)
+            self.drawRightString(doc_width - 72, 30, page_num)
+
 def create_pdf(output_filename, chapter_files, book_title, book_subtitle=None):
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    doc = SimpleDocTemplate(output_filename, pagesize=letter,
-                            rightMargin=72, leftMargin=72,
-                            topMargin=72, bottomMargin=54)
+    global doc_width
+    # Usamos A5 para un formato más de "Libro"
+    from reportlab.lib.pagesizes import A5
+    pagesize = A5
+    doc_width, doc_height = pagesize
+    
+    doc = BaseDocTemplate(output_filename, pagesize=pagesize,
+                          rightMargin=40, leftMargin=60, # Optimizado para libro físico
+                          topMargin=45, bottomMargin=50)
+    
+    # Configuración de marcos (Frames)
+    frame = Frame(doc.leftMargin, doc.bottomMargin, doc.width, doc.height, id='normal')
+    template = PageTemplate(id='all_pages', frames=frame)
+    doc.addPageTemplates([template])
     
     styles = getSampleStyleSheet()
-    styles.add(ParagraphStyle(name='Justify', alignment=TA_JUSTIFY, parent=styles['Normal'], spaceAfter=12, leading=14))
-    styles.add(ParagraphStyle(name='Quote', parent=styles['Normal'], leftIndent=30, rightIndent=30, spaceAfter=12, fontName='Helvetica-Oblique', fontSize=10, leading=14))
-    styles.add(ParagraphStyle(name='ChapterTitle', parent=styles['Title'], spaceAfter=24, alignment=TA_CENTER, fontSize=28, keepWithNext=True))
-    styles.add(ParagraphStyle(name='SectionTitle', parent=styles['Heading2'], spaceAfter=12, spaceBefore=18, keepWithNext=True, fontSize=18, alignment=TA_LEFT, color=colors.HexColor('#2c3e50')))
-    styles.add(ParagraphStyle(name='SubSectionTitle', parent=styles['Heading3'], spaceAfter=8, spaceBefore=12, keepWithNext=True, fontSize=14, alignment=TA_LEFT, color=colors.HexColor('#34495e')))
-    styles.add(ParagraphStyle(name='ListItem', parent=styles['Normal'], leftIndent=25, bulletIndent=10, spaceAfter=6, leading=14))
-    
+    # Estilo base optimizado de 10.5pt/12pt (Estándar de libros de gran venta como Atomic Habits o El Alquimista)
+    styles.add(ParagraphStyle(name='Justify', alignment=TA_JUSTIFY, parent=styles['Normal'], spaceAfter=7, leading=12, fontSize=10.5))
+    styles.add(ParagraphStyle(name='Quote', parent=styles['Normal'], leftIndent=15, rightIndent=15, spaceAfter=8, fontName='Helvetica-Oblique', fontSize=9, leading=11, color=colors.HexColor('#555555')))
+    styles.add(ParagraphStyle(name='ChapterTitle', parent=styles['Title'], spaceAfter=15, alignment=TA_CENTER, fontSize=22, keepWithNext=True))
+    styles.add(ParagraphStyle(name='SectionTitle', parent=styles['Heading2'], spaceAfter=8, spaceBefore=12, keepWithNext=True, fontSize=14, alignment=TA_LEFT, color=colors.HexColor('#2c3e50')))
+    styles.add(ParagraphStyle(name='SubSectionTitle', parent=styles['Heading3'], spaceAfter=5, spaceBefore=8, keepWithNext=True, fontSize=11, alignment=TA_LEFT, color=colors.HexColor('#34495e')))
+    styles.add(ParagraphStyle(name='ListItem', parent=styles['Normal'], leftIndent=18, bulletIndent=6, spaceAfter=4, leading=12, fontSize=10.5, bulletFontName='Helvetica-Bold'))
+    styles.add(ParagraphStyle(name='TOCItem', parent=styles['Normal'], fontSize=10, leading=14, leftIndent=5))
+
+    def fit_image(img, max_w, max_h):
+        aspect = img.imageHeight / float(img.imageWidth)
+        w = max_w
+        h = max_w * aspect
+        if h > max_h:
+            h = max_h
+            w = h / aspect
+        img.drawWidth = w
+        img.drawHeight = h
+        return img
+
     story = []
 
-    # Portada
-    story.append(Spacer(1, 40))
+    # 1. PORTADA
+    story.append(Spacer(1, 20))
     cover_found = False
     for ext in ['.jpg', '.png', '.jpeg', '.PNG']:
         img_path = os.path.join(current_dir, "imagenes", "imagen_portada" + ext)
         if os.path.exists(img_path):
             img = Image(img_path)
-            aspect = img.imageHeight / float(img.imageWidth)
-            display_width = 400
-            img.drawWidth = display_width
-            img.drawHeight = display_width * aspect
+            img = fit_image(img, 260, 350)
             story.append(img)
-            story.append(Spacer(1, 40))
+            story.append(Spacer(1, 20))
             cover_found = True
             break
-    if not cover_found: story.append(Spacer(1, 140))
+    if not cover_found: story.append(Spacer(1, 100))
 
     story.append(Paragraph(book_title, styles['ChapterTitle']))
-    if book_subtitle: story.append(Paragraph(book_subtitle, styles['Heading2']))
-    story.append(Spacer(1, 20))
-    story.append(Paragraph("Edición Completa", styles['Heading1']))
+    if book_subtitle: story.append(Paragraph(f"<i>{book_subtitle}</i>", styles['Heading2']))
+    story.append(Spacer(1, 10))
+    story.append(Paragraph("Silvio Vasconcelos", styles['Heading3']))
     story.append(PageBreak())
 
+    # 2. ÍNDICE (TOC)
+    story.append(Paragraph("<b>Índice</b>", styles['ChapterTitle']))
+    story.append(Spacer(1, 15))
+    for file_path in chapter_files:
+        if not os.path.exists(file_path): continue
+        with open(file_path, 'r', encoding='utf-8') as f:
+            first = f.read(500).split('\n')[0].strip().lstrip('#').strip()
+            if first: story.append(Paragraph(first, styles['TOCItem']))
+    story.append(PageBreak())
+
+    # 3. CONTENIDO DEL LIBRO
     for file_path in chapter_files:
         if not os.path.exists(file_path): continue
         with open(file_path, 'r', encoding='utf-8') as f:
@@ -93,44 +151,46 @@ def create_pdf(output_filename, chapter_files, book_title, book_subtitle=None):
             nonlocal waiting_for_next
             flush_table()
             if current_group:
+                print(f"Flushing group with {len(current_group)} items for {os.path.basename(file_path)}")
                 story.append(KeepTogether(list(current_group)))
                 current_group.clear()
             waiting_for_next = False
 
         chapter_idx = 0
+        in_outro = False
         while chapter_idx < len(lines):
             line = lines[chapter_idx]
             
             # Título de capítulo
             if chapter_idx == 0:
-                title_text = line
-                if title_text.startswith('# '): title_text = title_text[2:]
+                title_text = line.strip().lstrip('#').strip()
                 story.append(Paragraph(format_inline_styles(title_text), styles['ChapterTitle']))
                 chapter_base = os.path.splitext(os.path.basename(file_path))[0]
                 
+                # Extraemos solo 'capitulo_XX' ignorando el texto añadido para encontrar las imágenes
+                img_base_match = re.match(r"^(capitulo_\d+)", chapter_base)
+                img_base = img_base_match.group(1) if img_base_match else chapter_base
+                
                 img_candidates = [
-                    os.path.join(current_dir, "imagenes", chapter_base + "_clean.png"),
-                ] + [
-                    os.path.join(current_dir, "imagenes", chapter_base + ext)
-                    for ext in ['.jpg', '.png', '.jpeg', '.PNG']
+                    os.path.join(current_dir, "imagenes", img_base + "_clean.png"),
+                    os.path.join(current_dir, "imagenes", img_base + "_clean.jpg"),
+                    os.path.join(current_dir, "imagenes", img_base + ".png"),
+                    os.path.join(current_dir, "imagenes", img_base + ".jpg")
                 ]
                 for img_path in img_candidates:
                     if os.path.exists(img_path):
                         try:
                             c_img = Image(img_path)
-                            aspect = c_img.imageHeight / float(c_img.imageWidth)
-                            display_width = 468
-                            c_img.drawWidth = display_width
-                            c_img.drawHeight = display_width * aspect
-                            story.append(Spacer(1, 12))
-                            story.append(KeepTogether([c_img, Spacer(1, 24)]))
+                            fit_image(c_img, 280, 400)
+                            c_img.hAlign = 'CENTER'
+                            story.append(Spacer(1, 10))
+                            story.append(KeepTogether([c_img, Spacer(1, 15)]))
                             break
                         except: pass
                 chapter_idx += 1
                 continue
 
             # Check inline images
-            import re
             img_match = re.match(r'^!\[(.*?)\]\((.*?)\)$', line)
             if img_match:
                 img_name = os.path.basename(img_match.group(2))
@@ -139,7 +199,10 @@ def create_pdf(output_filename, chapter_files, book_title, book_subtitle=None):
                     try:
                         c_img = Image(img_path)
                         aspect = c_img.imageHeight / float(c_img.imageWidth)
-                        display_width = 468
+                        display_width = 280
+                        if img_name == "diagrama_creencia.png":
+                            display_width = 300 # Reducido para que se vea más pequeño en la página
+                        
                         c_img.drawWidth = display_width
                         c_img.drawHeight = display_width * aspect
                         
@@ -153,25 +216,33 @@ def create_pdf(output_filename, chapter_files, book_title, book_subtitle=None):
                 chapter_idx += 1
                 continue
 
+            line = line.strip()
+            if not line:
+                continue
+            
             # Determinación del tipo de línea
             is_header = False
             title_p = None
             is_list_item = False
             
             # Formatos de Markdown y Heurísticos
-            if line.startswith('# '):
-                is_header, title_p = True, Paragraph(format_inline_styles(line[2:]), styles['ChapterTitle'])
-            elif line.startswith('## '):
-                is_header, title_p = True, Paragraph(format_inline_styles(line[3:]), styles['SectionTitle'])
-            elif line.startswith('### '):
-                is_header, title_p = True, Paragraph(format_inline_styles(line[4:]), styles['SubSectionTitle'])
-            elif (len(line) < 120 and (line[0].isupper() or line[0] in "¿¡" or line[0].isdigit()) and not line.endswith('.') and not line.startswith('- ') and not line.startswith('* ')):
-                # Es un título heurístico
-                is_header, title_p = True, Paragraph("<b>" + format_inline_styles(line) + "</b>", styles['SectionTitle'])
+            if line.startswith('#'):
+                # Limpiamos todos los '#' iniciales y espacios para que no se impriman en el PDF
+                raw_text_clean = line.lstrip('#').strip()
+                if line.startswith('###'):
+                    is_header, title_p = True, Paragraph(format_inline_styles(raw_text_clean), styles['SubSectionTitle'])
+                elif line.startswith('##'):
+                    is_header, title_p = True, Paragraph(format_inline_styles(raw_text_clean), styles['SectionTitle'])
+                else:
+                    is_header, title_p = True, Paragraph(format_inline_styles(raw_text_clean), styles['ChapterTitle'])
             elif line.startswith('- ') or line.startswith('* '):
                 is_list_item = True
             elif re.match(r'^[*_]*\d+\.\s+', line):
                 is_list_item = True
+            elif (len(line) < 120 and (line[0].isupper() or line[0] in "¿¡" or line[0].isdigit()) and not line.endswith('.') and not line.startswith('- ') and not line.startswith('* ')):
+                # Es un título heurístico (limpiamos por si acaso tiene # sin espacio)
+                raw_text_clean = line.lstrip('#').strip()
+                is_header, title_p = True, Paragraph("<b>" + format_inline_styles(raw_text_clean) + "</b>", styles['SectionTitle'])
 
             is_table_row = bool(re.match(r'^\s*\|.*\|\s*$', line))
 
@@ -188,14 +259,35 @@ def create_pdf(output_filename, chapter_files, book_title, book_subtitle=None):
             # Lógica de acumulación
             if is_header:
                 waiting_for_next = False
+                prev_header_level = 0
+                for item in current_group:
+                    i_style = getattr(item, 'style', None)
+                    s_name = getattr(i_style, 'name', '') if i_style else ''
+                    if s_name == 'ChapterTitle': prev_header_level = 1
+                    elif s_name == 'SectionTitle': prev_header_level = 2
+                    elif s_name == 'SubSectionTitle': prev_header_level = 3
+                
+                curr_header_level = 0
+                s_name_curr = getattr(title_p.style, 'name', '')
+                if s_name_curr == 'ChapterTitle': curr_header_level = 1
+                elif s_name_curr == 'SectionTitle': curr_header_level = 2
+                elif s_name_curr == 'SubSectionTitle': curr_header_level = 3
+                
                 has_normal = any(hasattr(x, 'style') and getattr(x.style, 'name', '') not in ['ChapterTitle', 'SectionTitle', 'SubSectionTitle'] for x in current_group)
-                if has_normal:
+                
+                # Si ya hay un encabezado del mismo nivel o nivel superior, o si ya hay contenido normal, flusheamos
+                if has_normal or (prev_header_level > 0 and curr_header_level <= prev_header_level):
                     flush_group()
+                
                 current_group.append(title_p)
+                waiting_for_next = True # Forzamos a que el siguiente elemento se una al encabezado
                 
             elif is_list_item:
+                was_waiting = waiting_for_next
                 waiting_for_next = False
-                if len(current_group) > 15: # Elevado a 15 para evitar que listas largas se corten torpemente
+                # Protegemos el grupo si la línea anterior terminaba en dos puntos o indicaba continuación
+                # Pero si el grupo ya es excesivo, debemos flushear para no romper el layout del PDF
+                if len(current_group) > 8: # Reducido para A5
                     flush_group()
                 
                 raw_text = line
@@ -206,69 +298,63 @@ def create_pdf(output_filename, chapter_files, book_title, book_subtitle=None):
                     bullet_text = num_match.group(2)
                     raw_text = re.sub(r'^[*_]*\d+\.\s+', '', raw_text)
                     if '**' in decor:
-                        bullet_text = f"<b>{bullet_text}</b>"
                         raw_text = f"**{raw_text}"
                     elif '*' in decor or '_' in decor:
-                        bullet_text = f"<i>{bullet_text}</i>"
                         raw_text = f"*{raw_text}"
-                    p = Paragraph(f"<bullet>{bullet_text}</bullet>{format_inline_styles(raw_text)}", styles['ListItem'])
+                    p = Paragraph(format_inline_styles(raw_text), styles['ListItem'], bulletText=bullet_text)
                 else:
                     # Lista normal de viñetas
                     raw_text = re.sub(r'^([-*]\s*)', '', raw_text)
                     raw_text = re.sub(r'^([^\w\*\'"\[\(\¿\¡\u201C\u201D\-\+]\s*)+', '', raw_text, flags=re.UNICODE).strip()
                     if not raw_text:
                         raw_text = " "
-                    p = Paragraph(f"<bullet>&bull;</bullet>{format_inline_styles(raw_text)}", styles['ListItem'])
+                    # Usamos el punto (\u2022) como viñeta
+                    p = Paragraph(format_inline_styles(raw_text), styles['ListItem'], bulletText='\u2022')
                 
                 current_group.append(p)
+                if len(current_group) > 5: print(f"Group growth in {os.path.basename(file_path)}: {len(current_group)} items")
                 
-            elif line == '---':
-                flush_group()
-                story.append(HRFlowable(width="80%", thickness=1, color=colors.lightgrey, spaceBefore=10, spaceAfter=10))
-            elif line == '[[PAGE_BREAK]]':
-                flush_group()
-                story.append(PageBreak())
+            elif line == '---' or line.startswith('[[PAGE_BREAK]]'):
+                # Pre-verificación: ¿la siguiente línea es el cierre final?
+                next_is_outro = False
+                if chapter_idx + 1 < len(lines):
+                    next_line = lines[chapter_idx+1].strip()
+                    if "Muy buenos días" in next_line or "bienvenido a la libertad mental" in next_line:
+                        next_is_outro = True
+                
+                if not next_is_outro:
+                    flush_group()
+                
+                if line.startswith('[[PAGE_BREAK]]'):
+                    story.append(PageBreak())
+                elif not next_is_outro:
+                    story.append(Spacer(1, 20))
             else:
                 p = Paragraph(format_inline_styles(line), styles['Justify'])
+                is_bold_header = bool(re.match(r'^[*_]{2,}[^*_]+[*_]{2,}$', line.strip()))
+                is_quote = bool(re.match(r'^[*_]*["\u201C]', line))
+                is_outro_line = any(x in line for x in ["Antes de pasar al Capítulo", "Nos vemos en el Capítulo", "Muy buenos días", "bienvenido a la libertad mental"])
                 
-                has_title = any(hasattr(x, 'style') and getattr(x.style, 'name', '') in ['ChapterTitle', 'SectionTitle', 'SubSectionTitle'] for x in current_group)
+                # Acumulamos el párrafo en el grupo actual
+                current_group.append(p)
+                if len(current_group) > 6: print(f"Big group found in {os.path.basename(file_path)}: {len(current_group)} items") # Reducido para A5
                 
-                if has_title:
-                    is_quote = bool(re.match(r'^[*_]*["\u201C]', line))
-                    current_group.append(p)
-                    if line.strip(' *_').endswith(':'):
-                        waiting_for_next = True
-                    elif is_quote:
-                        waiting_for_next = True
-                    else:
-                        flush_group()
+                # Determinamos si es una línea que pide continuidad
+                is_continuation = line.strip(' *_').endswith(':') or line.strip(' *_').endswith('...') or is_quote or is_bold_header or is_outro_line
+                
+                # Si es un párrafo final (no pide continuar), flusheamos el grupo para imprimirlo
+                if not is_continuation:
+                    flush_group()
                 else:
-                    is_quote = bool(re.match(r'^[*_]*["\u201C]', line))
-                    if waiting_for_next:
-                        current_group.append(p)
-                        if is_quote:
-                             waiting_for_next = True
-                        else:
-                             flush_group()
-                    elif line.strip(' *_').endswith(':'):
-                        flush_group()
-                        current_group.append(p)
-                        waiting_for_next = True
-                    elif is_quote:
-                        flush_group()
-                        current_group.append(p)
-                        waiting_for_next = True
-                    else:
-                        flush_group()
-                        current_group.append(p)
-                        flush_group()
+                    # Si es continuación, marcamos que esperamos algo más antes de flushear el KeepTogether
+                    waiting_for_next = True
 
             chapter_idx += 1
             
         flush_group()
         story.append(PageBreak())
 
-    doc.build(story)
+    doc.build(story, canvasmaker=NumberingCanvas)
     print(f"PDF generado exitosamente con imágenes.")
 
 if __name__ == "__main__":
