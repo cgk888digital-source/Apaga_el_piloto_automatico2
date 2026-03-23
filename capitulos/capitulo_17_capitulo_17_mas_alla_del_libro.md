@@ -25,18 +25,7 @@ Como hemos mencionado, la neuroplasticidad requiere persistencia. Para que tu su
 ¿Por qué 40 días?
 Este número no es caprichoso. Es el tiempo necesario para que las células de la sangre se renueven y para que el cerebro consolide cambios estructurales profundos (lo que en psicología llamamos "mantenimiento del hábito").
 
-```mermaid.
-graph TD.
-    subgraph Fase 1: Desintoxicación (Día 1-13).
-## A[Observación del Juzgador] --> B[Silencio Digital Matutino]
-    end
-    subgraph Fase 2: Recodificación (Día 14-27).
-## C[Afirmaciones de Identidad] --> D[Respiración Coherente Diaria]
-    end
-    subgraph Fase 3: Manifestación (Día 28-40).
-## E[Visualización Cuántica] --> F[Servicio Desinteresado]
-    end
-```
+![Programa de Inmersión de 40 Días: Las tres fases de la metamorfosis consciente.](ciclo_40_dias_despertar_v1.png)
 
 Durante estos 40 días, tu única misión es **no renunciar a tu luz**. Si un día fallas, no te castigues (eso es alimento para el ego); simplemente retoma al día siguiente con más amor y determinación.
 
