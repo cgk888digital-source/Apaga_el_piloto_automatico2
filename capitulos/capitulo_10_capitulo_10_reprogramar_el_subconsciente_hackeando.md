@@ -29,9 +29,7 @@ Como hemos mencionado a lo largo del libro, operamos en modo subconsciente la gr
 Es una máquina de eficiencia brutal. Su función es ahorrar energía automatizando todo lo que pueda: desde latir tu corazón y respirar, hasta la forma en que respondes cuando alguien te critica.
 
 El problema es que el subconsciente es un **receptáculo ciego**. No juzga si una creencia es "buena" o "mala", solo registra lo que se le repite con intensidad emocional. En él residen:
-- **Tus creencias más profundas**: "No soy suficiente", "El dinero es difícil", "El amor duele".
-- **Tus hábitos automatizados**: La procrastinación, la queja, el perfeccionismo.
-- **Tus patrones emocionales**: Reaccionar con ira ante el estrés o con parálisis ante el miedo.
+**Archivos del Subconsciente:** En este receptáculo residen sus creencias más profundas ("no soy suficiente", "el dinero es difícil"), sus hábitos automatizados como la procrastinación o el perfeccionismo, y sus patrones emocionales reactivos ante el estrés o el miedo, gobernando su realidad sin filtro lógico.
 
 Para transformar tu vida, debes aprender a comunicarte con esta parte de tu mente. Pero aquí está el truco: **el subconsciente no habla español, ni inglés, ni tiene lógica.** Tiene su propio código.
 
@@ -71,9 +69,7 @@ La neurociencia ha demostrado que el cerebro no distingue entre un evento real y
 Esto se conoce como **ensayo mental**. Cuando visualizas con éxito una presentación, una conversación difícil o un estado de salud, estás creando una "huella de memoria" en tu cerebro. Estás programando tu **Sistema de Activación Reticular (S.A.R.)** para que busque fuera lo que ya has creado dentro.
 
 **Cómo visualizar eficazmente:**
-- **Involucra los 5 sentidos**: No solo veas el éxito. Siente el viento, huele el aroma de la habitación, escucha las palabras de las personas, siente la textura de tu ropa.
-- **Vívelo en primera persona**: No te veas en una pantalla de cine. Vive la experiencia desde dentro de tus ojos.
-- **Siente la emoción elevada**: La gratitud es el multiplicador energético. Siente el "Gracias porque esto ya es real" mientras visualizas.
+**Ensayo de Vuelo Mental:** Para una visualización efectiva, involucre los cinco sentidos (viento, aromas, sonidos), vívalo en primera persona desde su propio campo visual y sature la escena con una emoción de gratitud elevada, sintiendo que el éxito ya es una realidad operativa en su sistema.
 
 ---
 
@@ -102,12 +98,7 @@ Este es el hábito más importante de este capítulo. Durante los próximos 14 d
 
 ## Ejercicio 2: Creación de tu "Set de Afirmaciones de Poder"
 Toma una hoja y divídela en dos:
-- **Lado Izquierdo**: Escribe las 3 mentiras más grandes que te dice tu subconsciente (ej: "No soy suficiente", "Es tarde para mí", "Nadie me ve").
-- **Lado Derecho**: Escribe su opuesto en presente y con carga emocional.
-  - *"Soy más que suficiente y poseo una valía intrínseca"*.
-  - *"Este es mi momento perfecto y cada experiencia me ha preparado para brillar"*.
-  - *"Emito una luz que atrae conexiones genuinas y valiosas"*.
-**Práctica**: Lee el lado derecho en voz alta frente al espejo todas las mañanas durante los estados hipnopómpicos (recién despierto).
+**Reemplazo de Identidad:** Transforme sus mentiras subconscientes ("no soy suficiente", "es tarde") en afirmaciones puente de poder en presente y con carga emocional ("soy más que suficiente", "mi momento es perfecto"), leyéndolas frente al espejo cada mañana durante el estado de máxima receptividad post-despertar.
 
 ## Ejercicio 3: Interrupción de la Repetición Consciente
 Lleva una liga o pulsera en tu muñeca. Cada vez que caches a tu mente repitiendo un pensamiento limitante del "pasado":
