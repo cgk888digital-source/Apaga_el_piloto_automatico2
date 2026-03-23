@@ -385,4 +385,4 @@ if __name__ == "__main__":
         print("Chapters found to process:")
         for c in chapters:
             print(f"  - {os.path.basename(c)}")
-        create_pdf(output_pdf, chapters, "Apaga el Piloto Automático", "Tu manual de Vuelo para Tomar el Control de tu vida o de tu mente.")
+        create_pdf(output_pdf, chapters, "Apaga el Piloto Automático", "Tu Manual de vuelo para tomar el control de tu Vida y tu Mente")
