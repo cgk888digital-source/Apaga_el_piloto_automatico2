@@ -23,16 +23,7 @@ El fruto más sagrado y fundamental de este proceso es una paz que el mundo no p
 ## El Salto del DMN al TPN
 Desde la neurociencia moderna, esta paz tiene una explicación fascinante. Un cerebro no entrenado vive la mayor parte del tiempo en la **Red Neuronal por Defecto (Default Mode Network - DMN)**, asociada con el pensamiento autorreferencial y la ansiedad. Al practicar la conciencia despierta, activas la **Red de Tarea Positiva (Task Positive Network - TPN)**, el estado de presencia absoluta.
 
-```mermaid.
-graph TD.
-## A["Estresor Externo"] --> B{"Estado de Conciencia"}
-## B -- "Inconsciente (DMN)" --> C["Reacción Automática (Miedo/Ira)"]
-## B -- "Despierto (TPN)" --> D["Observación Serena (Paz)"]
-## C --> E["Producción de Cortisol"]
-## D --> F["Producción de Oxitocina/Dopamina"]
-## E --> G["Deterioro Biológico"]
-## F --> H["Reparación y Flujo"]
-```
+![Estado de Conciencia: El salto del DMN (Inconsciente) al TPN (Despierto) y sus efectos biológicos.](circulo_estado_conciencia_v1.png)
 
 ## 2. La Alquimia de las Emociones: De la Reacción a la Transfiguración
 
