@@ -4,6 +4,9 @@
 
 **Objetivo**: Expandir el manuscrito de 9 a 17 capítulos con mayor profundidad científica y práctica.
 
+## PRÓLOGO: Despeje de Pista
+- **Contenido**: Mensaje motivacional de "Ground Control", invitación al despertar y toma de mandos.
+
 ## INTRODUCCIÓN: La trampa del 98%
 - **Intro**: Revelación del dato (98% subconsciente), caso real, promesa del libro.
 

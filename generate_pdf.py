@@ -105,8 +105,16 @@ def create_pdf(output_filename, chapter_files, book_title, book_subtitle=None):
     for file_path in chapter_files:
         if not os.path.exists(file_path): continue
         with open(file_path, 'r', encoding='utf-8') as f:
-            first = f.read(500).split('\n')[0].strip().lstrip('#').strip()
-            if first: story.append(Paragraph(first, styles['TOCItem']))
+            # Buscamos el primer título real entre las primeras 50 líneas
+            toc_title = ""
+            for i, line in enumerate(f):
+                line_clean = line.strip()
+                if line_clean and not line_clean.startswith('!') and not line_clean.startswith('['):
+                    toc_title = line_clean.lstrip('#').strip()
+                    break
+                if i > 50: break
+            if toc_title:
+                story.append(Paragraph(toc_title, styles['TOCItem']))
     story.append(PageBreak())
 
     # 3. CONTENIDO DEL LIBRO
@@ -371,4 +379,7 @@ if __name__ == "__main__":
         ])
     
     if chapters:
+        print("Chapters found to process:")
+        for c in chapters:
+            print(f"  - {os.path.basename(c)}")
         create_pdf(output_pdf, chapters, "Apaga el Piloto Automático")

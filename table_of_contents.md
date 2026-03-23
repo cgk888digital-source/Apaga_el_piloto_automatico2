@@ -16,6 +16,12 @@
 
 ## Los 9 Capítulos
 
+### 🛫 Prólogo: Despeje de Pista (Briefing de Operación Consciente)
+
+**Descripción**: Mensaje motivacional de bienvenida que establece el tono del libro. Una invitación a que el lector deje de ser un pasajero de su propia vida y tome los controles del mando desde la consciencia despierta.
+
+---
+
 ### 📖 Capítulo 1: Introducción – ¿Qué es el despertar de la consciencia?
 
 **Descripción**: Fundamento conceptual del despertar. La historia de María y su momento de presencia pura. Distinción entre mente, ego y consciencia.
