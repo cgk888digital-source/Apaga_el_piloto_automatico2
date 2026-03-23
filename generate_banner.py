@@ -2,39 +2,56 @@ from PIL import Image, ImageDraw, ImageFont
 import os
 
 def generate_banner_image():
-    # The banner image from the screenshots looks like just text on white or plain background
-    # But since the user often uses the same background, I'll take the sky area of the cover as background for it, OR just white.
-    # Looking at the user's second screenshot, it's black text on a light background.
-    
-    w, h = 1000, 250 # Typical banner size
+    w, h = 800, 600
     img = Image.new('RGB', (w, h), color=(255, 255, 255))
     draw = ImageDraw.Draw(img)
     
     try:
-        # Bold font for banner
-        font = ImageFont.truetype("C:\\Windows\\Fonts\\arialbd.ttf", 36)
+        font_title = ImageFont.truetype("C:\\Windows\\Fonts\\arialbd.ttf", 48)
+        font_sub = ImageFont.truetype("C:\\Windows\\Fonts\\arialbd.ttf", 26) 
+        font_author = ImageFont.truetype("C:\\Windows\\Fonts\\arialbd.ttf", 24)
     except:
-        font = ImageFont.load_default()
+        font_title = font_sub = font_author = ImageFont.load_default()
         
-    # As requested: Add "vuelo" (or Vuelo) and change "o" to "y"
-    text = "Tu manual de Vuelo para Tomar el Control de tu vida y de tu mente."
-    # Break into two lines to match the screenshot provided
-    words = text.split()
-    line1 = " ".join(words[:7]) # "Tu manual de Vuelo para Tomar el"
-    line2 = " ".join(words[7:]) # "Control de tu vida y de tu mente."
+    # 1. Main Title
+    title = "Apaga el Piloto Automático"
+    bbox_t = draw.textbbox((0, 0), title, font=font_title)
+    tx_t = (w - (bbox_t[2] - bbox_t[0])) // 2
+    draw.text((tx_t, 60), title, font=font_title, fill=(0, 0, 0))
     
-    y_text = 60
-    for line in [line1, line2]:
-        bbox = draw.textbbox((0, 0), line, font=font)
-        tw = bbox[2] - bbox[0]
-        tx = (w - tw) // 2
-        draw.text((tx, y_text), line, font=font, fill=(10, 10, 10)) # Very dark Gray
-        y_text += 55
+    # 2. Subtitle as ONE line "block" (Reduced font to fit)
+    sub_text = "Tu Manual de vuelo para tomar el control de tu Vida y tu Mente"
+    
+    # Check if it fits on one line
+    bbox_s = draw.textbbox((0, 0), sub_text, font=font_sub)
+    sw = bbox_s[2] - bbox_s[0]
+    
+    if sw < w * 0.9:
+        tx_s = (w - sw) // 2
+        draw.text((tx_s, 130), sub_text, font=font_sub, fill=(20, 20, 20))
+    else:
+        # If it doesn't fit, smaller font
+        curr_size = 26
+        while sw > w * 0.9 and curr_size > 14:
+            curr_size -= 2
+            font_sub = ImageFont.truetype("C:\\Windows\\Fonts\\arialbd.ttf", curr_size)
+            bbox_s = draw.textbbox((0, 0), sub_text, font=font_sub)
+            sw = bbox_s[2] - bbox_s[0]
+        tx_s = (w - sw) // 2
+        draw.text((tx_s, 130), sub_text, font=font_sub, fill=(20, 20, 20))
+        
+    # 3. Horizontal marker
+    draw.line([50, 280, 750, 280], fill=(40, 40, 40), width=18)
+    
+    # 4. Author
+    author = "Silvio Vasconcelos"
+    bbox_a = draw.textbbox((0, 0), author, font=font_author)
+    tx_a = (w - (bbox_a[2] - bbox_a[0])) // 2
+    draw.text((tx_a, 400), author, font=font_author, fill=(0, 0, 0))
 
-    # Save to a dedicated banner file
     out_path = r"d:\cesar\dev\libros\Apaga_el_piloto_automatico2\imagenes\banner_vuelo.png"
     img.save(out_path)
-    print(f"Banner FIXED and saved to {out_path}")
+    print(f"Banner ONE-LINE BLOCK saved to {out_path}")
 
 if __name__ == "__main__":
     generate_banner_image()

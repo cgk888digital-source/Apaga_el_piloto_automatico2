@@ -80,25 +80,25 @@ def create_pdf(output_filename, chapter_files, book_title, book_subtitle=None):
     story = []
 
     # 1. PORTADA
-    story.append(Spacer(1, 20))
+    story.append(Spacer(1, 10)) # Reduced
     cover_found = False
     for ext in ['.jpg', '.png', '.jpeg', '.PNG']:
         img_path = os.path.join(current_dir, "imagenes", "imagen_portada" + ext)
         if os.path.exists(img_path):
             img = Image(img_path)
-            img = fit_image(img, 260, 350)
+            img = fit_image(img, 240, 300) # Reduced width/height
             story.append(img)
-            story.append(Spacer(1, 20))
+            story.append(Spacer(1, 10)) # Reduced
             cover_found = True
             break
-    if not cover_found: story.append(Spacer(1, 100))
+    if not cover_found: story.append(Spacer(1, 80))
 
     story.append(Paragraph(book_title, styles['ChapterTitle']))
     if book_subtitle: 
-        subtitle_style = ParagraphStyle(name='CoverSubtitle', parent=styles['Heading2'], alignment=TA_CENTER, fontSize=14)
+        subtitle_style = ParagraphStyle(name='CoverSubtitle', parent=styles['Heading2'], alignment=TA_CENTER, fontSize=12) # Slightly smaller
         story.append(Paragraph(f"<i>{book_subtitle}</i>", subtitle_style))
-    story.append(Spacer(1, 20))
-    author_style = ParagraphStyle(name='CoverAuthor', parent=styles['Heading3'], alignment=TA_CENTER)
+    story.append(Spacer(1, 10)) # Reduced
+    author_style = ParagraphStyle(name='CoverAuthor', parent=styles['Heading3'], alignment=TA_CENTER, fontSize=11)
     story.append(Paragraph("Silvio Vasconcelos", author_style))
     story.append(PageBreak())
 
