@@ -94,9 +94,12 @@ def create_pdf(output_filename, chapter_files, book_title, book_subtitle=None):
     if not cover_found: story.append(Spacer(1, 100))
 
     story.append(Paragraph(book_title, styles['ChapterTitle']))
-    if book_subtitle: story.append(Paragraph(f"<i>{book_subtitle}</i>", styles['Heading2']))
-    story.append(Spacer(1, 10))
-    story.append(Paragraph("Silvio Vasconcelos", styles['Heading3']))
+    if book_subtitle: 
+        subtitle_style = ParagraphStyle(name='CoverSubtitle', parent=styles['Heading2'], alignment=TA_CENTER, fontSize=14)
+        story.append(Paragraph(f"<i>{book_subtitle}</i>", subtitle_style))
+    story.append(Spacer(1, 20))
+    author_style = ParagraphStyle(name='CoverAuthor', parent=styles['Heading3'], alignment=TA_CENTER)
+    story.append(Paragraph("Silvio Vasconcelos", author_style))
     story.append(PageBreak())
 
     # 2. ÍNDICE (TOC)
@@ -382,4 +385,4 @@ if __name__ == "__main__":
         print("Chapters found to process:")
         for c in chapters:
             print(f"  - {os.path.basename(c)}")
-        create_pdf(output_pdf, chapters, "Apaga el Piloto Automático")
+        create_pdf(output_pdf, chapters, "Apaga el Piloto Automático", "Tu manual de Vuelo para Tomar el Control de tu vida o de tu mente.")
