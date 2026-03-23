@@ -44,6 +44,7 @@ A lo largo de estas páginas, mi voz te ha servido de guía. Pero el éxito de e
 
 Esa parte de ti que es pura conciencia tiene todas las respuestas que necesitas para tu vida específica. Más allá de este libro, tu práctica se centrará en la **Indagación Constante**. Cada vez que sientas contracción, angustia o duda, no busques afuera. Detente, entra en el silencio y pregunta a tu mentor interior: *"¿Qué es lo más consciente que puedo hacer en este momento?"*. La respuesta no llegará como un trueno, sino como una certeza silenciosa y expansiva.
 
+[[PAGE_BREAK]]
 ## 4. Herramientas para el Viajero Infinito
 
 Para que tu camino sea fluido, debes llevar contigo estas tres herramientas maestras de por vida:
